@@ -10,8 +10,11 @@ activeplayer = ActivePlayer(player1.sign, player1.name)
 def onclick(button, lbl):
     if isvalidornot(button):
         button["text"] = activeplayer.sign
-        check_for_winner_status(lbl)
-        switch_active_player()
+        win = check_for_winner_status(lbl)
+        if win:
+            disablebuttons(buttons)
+        else:
+            switch_active_player()
         #if no win -->lbl["text"] = "-"
         #set lbl 1 to active player put your sign
     else:
@@ -32,21 +35,25 @@ def create_playboard():
     return playboard
 
 
+def disablebuttons(btns):
+    for buttonlist in btns:
+        for button in buttonlist:
+            button["state"] = DISABLED
+
+
 def check_for_winner_status(lbl):
     playboard = create_playboard()
     if verticalwin(playboard):
-        # disable buttons
         lbl["text"] = "{} wins!".format(activeplayer.name)
-        return None
+        return True
     elif horizontalwin(playboard):
-        # disable buttons
         lbl["text"] = "{} wins!".format(activeplayer.name)
-        return None
+        return True
     elif diagonalwin(playboard):
-        # disable buttons
         lbl["text"] = "{} wins!".format(activeplayer.name)
-        return None
-
+        return True
+    else:
+        return False
 
 
 def verticalwin(playboard):
@@ -74,6 +81,7 @@ def horizontalwin(playboard):
         return True
     elif statuscolumn3:
         return True
+
 
 def diagonalwin(playboard):
     diag_left_to_right = [playboard[0][0], playboard[1][1], playboard[2][2]]
