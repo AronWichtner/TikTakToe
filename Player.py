@@ -16,6 +16,16 @@ class ActivePlayer:
         self.name = name
 
 
+class Winner:
+    sign: str
+    name: str
+    status: bool
+
+    def __init__(self, status):
+        self.status = status
+
+
+
 
 
 
