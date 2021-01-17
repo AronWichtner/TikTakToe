@@ -5,7 +5,7 @@ game = Game()
 game.set_players()
 
 
-def reset_game(btns, pl1txt, drawtxt, pl2txt):
+def reset_game_to_plvpl(btns, pl1txt, drawtxt, pl2txt):
     pl1txt.delete(0.0, END)
     drawtxt.delete(0.0, END)
     pl2txt.delete(0.0, END)
@@ -16,13 +16,18 @@ def reset_game(btns, pl1txt, drawtxt, pl2txt):
 def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt):
     if isvalidornot(button):
         button["text"] = game.activeplayer.sign
-        win = check_for_winner_status(btns)
-        if win:
+        status = check_for_winner_status(btns)
+        if status:
             disablebuttons(btns)
             switch_active_player_to_winner()
             lblone["text"] = "{} wins!".format(game.winner.name)
             lbltwo["text"] = "{} wins!".format(game.winner.name)
             return True
+        elif status is None:
+            disablebuttons(btns)
+            lblone["text"] = "Draw"
+            lbltwo["text"] = "Draw"
+            return None
         else:
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
@@ -30,6 +35,10 @@ def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt):
     else:
         lbltwo["text"] = "There is already a sign."
         return False
+
+
+#def countwin(status):
+
 
 
 def isvalidornot(button):
@@ -45,6 +54,7 @@ def create_playboard(btns):
                  [btns[2][0]["text"], btns[2][1]["text"], btns[2][2]["text"]]]
     return playboard
 
+
 def reset_playboard(btns):
     for buttonlist in btns:
         for button in buttonlist:
@@ -59,19 +69,31 @@ def check_for_winner_status(btns):
         return True
     elif diagonalwin(playboard):
         return True
+    elif draw(playboard):
+        return None
     else:
         return False
 
 
+def draw(playboard):
+    statusrow0 = all(sign == game.player1.sign or sign == game.player2.sign for sign in playboard[0])
+    statusrow1 = all(sign == game.player1.sign or sign == game.player2.sign for sign in playboard[1])
+    statusrow2 = all(sign == game.player1.sign or sign == game.player2.sign for sign in playboard[2])
+    status = [statusrow0, statusrow1, statusrow2]
+    if all(status):
+        return True
+
+
+
 def verticalwin(playboard):
     statusrow0 = all(sign == game.activeplayer.sign for sign in playboard[0])
-    statusrowe1 = all(sign == game.activeplayer.sign for sign in playboard[1])
-    statusrowe2 = all(sign == game.activeplayer.sign for sign in playboard[2])
+    statusrow1 = all(sign == game.activeplayer.sign for sign in playboard[1])
+    statusrow2 = all(sign == game.activeplayer.sign for sign in playboard[2])
     if statusrow0:
         return True
-    elif statusrowe1:
+    elif statusrow1:
         return True
-    elif statusrowe2:
+    elif statusrow2:
         return True
 
 
@@ -166,7 +188,7 @@ def create_window():
     new_game_btn.configure(command=lambda: None)
 
     pl_vs_pl_btn = Button(f2, text="Player vs Player", height=5, width=15)
-    pl_vs_pl_btn.configure(command=lambda: reset_game(buttons, pl1txt, drawtxt, pl2txt))
+    pl_vs_pl_btn.configure(command=lambda: reset_game_to_plvpl(buttons, pl1txt, drawtxt, pl2txt))
     pl_vs_pl_btn.grid(column=1, row=1)
 
     pl_vs_ai_btn = Button(f2, text="Player vs AI", height=5, width=15)
@@ -200,7 +222,7 @@ def create_window():
 
 
 
-#create_window()
+create_window()
 
 
 
