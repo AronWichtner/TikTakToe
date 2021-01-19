@@ -2,20 +2,21 @@ from GameSetup import *
 from tkinter import *
 
 game = Game()
-game.set_game()
 
 
-def play_again(btns, new_game_btn):
+def reset_game_to_pl_vs_ki():
+    return None
+
+
+def play_again(btns, new_game_btn, lblone, lbltwo):
     new_game_btn["state"] = DISABLED
     switch_active_player()
-    reset_playboard(btns)
+    reset_playboard(btns, lblone, lbltwo)
     enablebuttons(btns)
 
 
-def reset_game_to_plvpl(btns, pl1txt, drawtxt, pl2txt, new_game_btn):
-    game.win_count_pl1 = 0
-    game.win_count_pl2 = 0
-    game.draw_count = 0
+def reset_game_to_plvpl(btns, pl1txt, drawtxt, pl2txt, new_game_btn, lblone, lbltwo):
+    game.set_game()
     pl1txt.delete(0.0, END)
     pl1txt.insert(1.0, game.win_count_pl1)
     drawtxt.delete(0.0, END)
@@ -23,7 +24,7 @@ def reset_game_to_plvpl(btns, pl1txt, drawtxt, pl2txt, new_game_btn):
     pl2txt.delete(0.0, END)
     pl2txt.insert(1.0, game.win_count_pl2)
     new_game_btn["state"] = DISABLED
-    reset_playboard(btns)
+    reset_playboard(btns, lblone, lbltwo)
     enablebuttons(btns)
 
 
@@ -51,6 +52,7 @@ def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
         else:
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
+            lbltwo["text"] = "-"
             return False
     else:
         lbltwo["text"] = "There is already a sign."
@@ -82,7 +84,9 @@ def create_playboard(btns):
     return playboard
 
 
-def reset_playboard(btns):
+def reset_playboard(btns, lblone, lbltwo):
+    lblone["text"] = "{}, but your sign!".format(game.activeplayer.name)
+    lbltwo["text"] = "-"
     for buttonlist in btns:
         for button in buttonlist:
             button["text"] = "-"
@@ -177,6 +181,8 @@ def switch_active_player_to_winner():
 
 
 def create_window():
+    game.set_game()
+
     window = Tk()
 
     window.title("TicTacToe")
@@ -194,7 +200,7 @@ def create_window():
             btn["state"] = DISABLED
             buttons[y].append(btn)
 
-    lbl1 = Label(window, text="{}, but your sign!".format(game.activeplayer.name))
+    lbl1 = Label(window, text="-")
     lbl1.grid(column=0, row=0)
 
     lbl2 = Label(window, text="-")
@@ -208,13 +214,15 @@ def create_window():
 
     new_game_btn = Button(f2, text="Play again", height=5, width=15, state=DISABLED)
     new_game_btn.grid(column=0, row=1)
-    new_game_btn.configure(command=lambda: play_again(buttons, new_game_btn))
+    new_game_btn.configure(command=lambda: play_again(buttons, new_game_btn, lbl1, lbl2))
 
     pl_vs_pl_btn = Button(f2, text="Player vs Player", height=5, width=15)
-    pl_vs_pl_btn.configure(command=lambda: reset_game_to_plvpl(buttons, pl1txt, drawtxt, pl2txt, new_game_btn))
+    pl_vs_pl_btn.configure(
+        command=lambda: reset_game_to_plvpl(buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
     pl_vs_pl_btn.grid(column=1, row=1)
 
     pl_vs_ai_btn = Button(f2, text="Player vs AI", height=5, width=15)
+    pl_vs_ai_btn.configure(command=None)
     pl_vs_ai_btn.grid(column=0, row=2)
 
     ai_vs_ai_btn = Button(f2, text="AI vs AI", height=5, width=15)
@@ -237,6 +245,12 @@ def create_window():
     pl2lbl.grid(column=2, row=0)
     pl2txt = Text(f3, height=3, width=5)
     pl2txt.grid(column=2, row=1)
+
+    def exit_game():
+        window.destroy()
+
+    exitbtn = Button(f2, text="exit game", height=4, width=10, command=exit_game)
+    exitbtn.grid(column=0, row=3)
 
     window.mainloop()
 
