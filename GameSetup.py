@@ -19,7 +19,7 @@ class Game:
         else:
             self.activeplayer = ActivePlayer(self.player2.sign, self.player2.name)
 
-    def set_game(self):
+    def set_game_for_plvspl(self):
         self.player1 = Player("X", "PlayerX")
         self.player2 = Player("O", "PlayerO")
         self.choose_who_starts_first()
