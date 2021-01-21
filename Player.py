@@ -25,8 +25,3 @@ class Winner:
         self.status = status
 
 
-
-
-
-
-

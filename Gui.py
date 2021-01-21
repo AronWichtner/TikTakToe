@@ -1,11 +1,12 @@
 from tkinter import *
-from PlayerVsPlayer import onclick, play_again, reset_game_to_plvpl
+from Gamelogic import *
+from PlayerVsPlayer import *
+from AI_vs_Pl import *
 
 
 def create_window():
 
     window = Tk()
-
     window.title("TicTacToe")
 
     f1 = Frame(window)
@@ -43,7 +44,8 @@ def create_window():
     pl_vs_pl_btn.grid(column=1, row=1)
 
     pl_vs_ai_btn = Button(f2, text="Player vs AI", height=5, width=15)
-    pl_vs_ai_btn.configure(command=None)
+    pl_vs_ai_btn.configure(
+        command=lambda: reset_game_to_aivspl(buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
     pl_vs_ai_btn.grid(column=0, row=2)
 
     ai_vs_ai_btn = Button(f2, text="AI vs AI", height=5, width=15)
