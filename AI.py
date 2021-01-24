@@ -1,5 +1,6 @@
 import random
 
+
 class AI:
     sign: str
     name: str
@@ -16,7 +17,7 @@ class AI:
                     possible_buttons.append(button)
         return possible_buttons
 
-    def setsign(self, buttonlist):
+    def setsignrandom(self, buttonlist):
         possible_buttons = self.check_if_valid(buttonlist)
         button = random.choice(possible_buttons)
         button["text"] = self.sign

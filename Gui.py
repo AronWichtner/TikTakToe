@@ -1,7 +1,8 @@
 from tkinter import *
-from Gamelogic import *
+from Onclick import *
 from PlayerVsPlayer import *
-from AI_vs_Pl import *
+from AIvsPl import *
+from Play_again import *
 
 
 def create_window():

@@ -5,7 +5,7 @@ def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
     if game.gamemode == 1:
         onclick_forplvpl(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
     elif game.gamemode == 2:
-        onclick_for_plvai(button, lbltwo)
+        onclick_for_plvai(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
     elif game.gamemode == 3:
         return None
 
@@ -13,42 +13,41 @@ def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
 def onclick_forplvpl(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn):
     if isvalidornot(button):
         button["text"] = game.activeplayer.sign
-        check_for_winner_status(btns)
-        if game.winner.status:
-            disablebuttons(btns)
-            switch_active_player_to_winner()
-            countwin(pl1txt, pl2txt)
-            lblone["text"] = "{} wins!".format(game.winner.name)
-            lbltwo["text"] = "{} wins!".format(game.winner.name)
-            new_game_btn["state"] = ACTIVE
-            return True
-        elif game.winner.status is None:
-            disablebuttons(btns)
-            game.draw_count = game.draw_count + 1
-            drawtxt.delete(1.0, END)
-            drawtxt.insert(1.0, game.draw_count)
-            lblone["text"] = "Draw"
-            lbltwo["text"] = "Draw"
-            new_game_btn["state"] = ACTIVE
-            return None
-        else:
+        game_over = check_for_game_status(btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
+        if not game_over:
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
             lbltwo["text"] = "-"
-            return False
+            return None
     else:
         lbltwo["text"] = "There is already a sign."
         return False
 
 
-def onclick_for_plvai(button, lbltwo):
+def onclick_for_plvai(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn):
     if isvalidornot(button):
         button["text"] = game.activeplayer.sign
-        # check for winner
-        # either True (win) None(draw) False(none of them)
+        game_over = check_for_game_status(btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
+        if not game_over:
+            disablebuttons(btns)
+            switch_active_player()
+            lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
+            lbltwo["text"] = "-"
+            game.ai.setsignrandom(btns)
+            game_over = check_for_game_status(btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
+            if not game_over:
+                switch_active_player()
+                enablebuttons(btns)
+                return None
     else:
         lbltwo["text"] = "There is already a sign."
         return False
+
+
+
+
+
+
 
 
 
