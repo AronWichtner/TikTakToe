@@ -5,7 +5,7 @@ def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
     if game.gamemode == 1:
         onclick_forplvpl(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
     elif game.gamemode == 2:
-        onclick_for_plvai()
+        onclick_for_plvai(button, lbltwo)
     elif game.gamemode == 3:
         return None
 
@@ -41,9 +41,14 @@ def onclick_forplvpl(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_
         return False
 
 
-def onclick_for_plvai():
-
-    return None
+def onclick_for_plvai(button, lbltwo):
+    if isvalidornot(button):
+        button["text"] = game.activeplayer.sign
+        # check for winner
+        # either True (win) None(draw) False(none of them)
+    else:
+        lbltwo["text"] = "There is already a sign."
+        return False
 
 
 
