@@ -3,6 +3,7 @@ from Onclick import *
 from PlayerVsPlayer import *
 from AIvsPl import *
 from Play_again import *
+from AIvsAI import *
 
 
 def create_window():
@@ -37,7 +38,7 @@ def create_window():
 
     new_game_btn = Button(f2, text="Play again", height=5, width=15, state=DISABLED)
     new_game_btn.grid(column=0, row=1)
-    new_game_btn.configure(command=lambda: play_again(buttons, new_game_btn, lbl1, lbl2))
+    new_game_btn.configure(command=lambda: play_again(window, buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
 
     pl_vs_pl_btn = Button(f2, text="Player vs Player", height=5, width=15)
     pl_vs_pl_btn.configure(
@@ -50,6 +51,8 @@ def create_window():
     pl_vs_ai_btn.grid(column=0, row=2)
 
     ai_vs_ai_btn = Button(f2, text="AI vs AI", height=5, width=15)
+    ai_vs_ai_btn.configure(
+        command=lambda: reset_game_to_aivsai(window, buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
     ai_vs_ai_btn.grid(column=1, row=2)
 
     f3 = Frame(window)

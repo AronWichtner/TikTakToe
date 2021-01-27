@@ -1,5 +1,5 @@
 import random
-
+import time
 
 class AI:
     sign: str
@@ -18,6 +18,7 @@ class AI:
         return possible_buttons
 
     def setsignrandom(self, buttonlist):
+        time.sleep(0.5)
         possible_buttons = self.check_if_valid(buttonlist)
         button = random.choice(possible_buttons)
         button["text"] = self.sign

@@ -9,17 +9,15 @@ def isvalidornot(button):
         return False
 
 
-def check_for_game_status(btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn):
-    check_for_winner_status(btns)
-    if game.winner.status:
+def end_game(game_over, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn):
+    if game_over:
         disablebuttons(btns)
         switch_active_player_to_winner()
         countwin(pl1txt, pl2txt)
         lblone["text"] = "{} wins!".format(game.winner.name)
         lbltwo["text"] = "{} wins!".format(game.winner.name)
         new_game_btn["state"] = ACTIVE
-        return True
-    elif game.winner.status is None:
+    elif game_over is None:
         disablebuttons(btns)
         game.draw_count = game.draw_count + 1
         drawtxt.delete(1.0, END)
@@ -27,7 +25,14 @@ def check_for_game_status(btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_gam
         lblone["text"] = "Draw"
         lbltwo["text"] = "Draw"
         new_game_btn["state"] = ACTIVE
+
+
+def check_for_game_status(btns):
+    check_for_winner_status(btns)
+    if game.winner.status:
         return True
+    elif game.winner.status is None:
+        return None
     else:
         return False
 
@@ -36,16 +41,12 @@ def check_for_winner_status(btns):
     playboard = create_playboard(btns)
     if verticalwin(playboard):
         game.winner.status = True
-        return game.winner.status
     elif horizontalwin(playboard):
         game.winner.status = True
-        return game.winner.status
     elif diagonalwin(playboard):
         game.winner.status = True
-        return game.winner.status
     elif draw(playboard):
         game.winner.status = None
-        return game.winner.status
     else:
         return False
 
@@ -103,6 +104,13 @@ def draw(playboard):
         status = [statusrow0, statusrow1, statusrow2]
         if all(status):
             return True
+    elif game.gamemode == 3:
+        statusrow0 = all(sign == game.ai1.sign or sign == game.ai2.sign for sign in playboard[0])
+        statusrow1 = all(sign == game.ai1.sign or sign == game.ai2.sign for sign in playboard[1])
+        statusrow2 = all(sign == game.ai1.sign or sign == game.ai2.sign for sign in playboard[2])
+        status = [statusrow0, statusrow1, statusrow2]
+        if all(status):
+            return True
 
 
 def countwin(pl1txt, pl2txt):
@@ -131,6 +139,13 @@ def switch_active_player():
         else:
             game.activeplayer.sign = game.player1.sign
             game.activeplayer.name = game.player1.name
+    elif game.gamemode == 3:
+        if game.activeplayer.sign == "X":
+            game.activeplayer.sign = game.ai2.sign
+            game.activeplayer.name = game.ai2.name
+        else:
+            game.activeplayer.sign = game.ai1.sign
+            game.activeplayer.name = game.ai1.name
 
 
 def switch_active_player_to_winner():
@@ -146,7 +161,7 @@ def create_playboard(btns):
 
 
 def reset_playboard(btns, lblone, lbltwo):
-    lblone["text"] = "{}, but your sign!".format(game.activeplayer.name)
+    lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
     lbltwo["text"] = "-"
     for buttonlist in btns:
         for button in buttonlist:

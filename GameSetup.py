@@ -13,6 +13,7 @@ class Game:
     win_count_pl2 = int
     draw_count = int
     gamemode = int  # 1:player vs player, 2:player vs AI, 3:AI vs AI
+    run_ai_vs_ai = False # stop gamemode3-loop when clicking on other gamemode while gamemode 3 is running
 
     def choose_who_starts_first(self, gamemode):
         choice = [1, 2]
@@ -31,7 +32,10 @@ class Game:
                 self.activeplayer = ActivePlayer(self.ai.sign, self.ai.name)
         elif gamemode == 3:
             self.gamemode = 3
-            return None  # set beginner in ki vs ki mode
+            if pick == 1:
+                self.activeplayer = ActivePlayer(self.ai1.sign, self.ai1.name)
+            else:
+                self.activeplayer = ActivePlayer(self.ai2.sign, self.ai2.name)
 
     def set_game_for_plvspl(self):
         self.player1 = Player("X", "PlayerX")
@@ -50,6 +54,16 @@ class Game:
         self.win_count_pl1 = 0
         self.win_count_pl2 = 0
         self.draw_count = 0
+
+    def set_game_for_aivai(self):
+        self.ai1 = AI("X", "PlayerX")
+        self.ai2 = AI("O", "PlayerO")
+        self.choose_who_starts_first(3)
+        self.winner = Winner(False)
+        self.win_count_pl1 = 0
+        self.win_count_pl2 = 0
+        self.draw_count = 0
+        self.run_ai_vs_ai = True
 
 
 game = Game()
