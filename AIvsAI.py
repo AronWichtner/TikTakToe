@@ -6,7 +6,7 @@ def reset_game_to_aivsai(window, btns, pl1txt, drawtxt, pl2txt, new_game_btn, lb
     reset_score(pl1txt, drawtxt, pl2txt)
     new_game_btn["state"] = DISABLED
     reset_playboard(btns, lblone, lbltwo)
-    enablebuttons(btns)
+    enablebuttons(btns)  # cant be pressed -> just for better look
     ai_vs_ai_game(window, btns, pl1txt, drawtxt, pl2txt, new_game_btn, lblone, lbltwo)
 
 
