@@ -20,8 +20,10 @@ class Winner:
     sign: str
     name: str
     status: bool
+    tempwin: bool
 
     def __init__(self, status):
         self.status = status
+        self.tempwin = False
 
 
