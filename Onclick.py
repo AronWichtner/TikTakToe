@@ -37,7 +37,10 @@ def onclick_for_plvai(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
             lbltwo["text"] = "-"
-            game.ai.setsignrandom(btns)
+            #game.ai.setsignrandom(btns)
+            playboard = create_playboard(btns)
+            bestmove = game.ai.find_best_move(playboard)
+            game.ai.makeBestMove(bestmove, btns)
             game_over = check_for_game_status(btns)
             if game_over:
                 return end_game(game_over, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
@@ -49,14 +52,3 @@ def onclick_for_plvai(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new
     else:
         lbltwo["text"] = "There is already a sign."
         return False
-
-
-
-
-
-
-
-
-
-
-
