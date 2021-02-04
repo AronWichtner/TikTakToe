@@ -13,7 +13,8 @@ class Game:
     win_count_pl2 = int
     draw_count = int
     gamemode = int  # 1:player vs player, 2:player vs AI, 3:AI vs AI
-    run_ai_vs_ai = False # stop gamemode3-loop when clicking on other gamemode while gamemode 3 is running
+    run_ai_vs_ai = False  #### stop gamemode3-loop when clicking on other gamemode
+                                # or stopping the game while gamemode 3 is running###
 
     def choose_who_starts_first(self, gamemode):
         choice = [1, 2]
