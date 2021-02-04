@@ -28,25 +28,28 @@ def end_game(game_over, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_
 
 
 def check_for_game_status(btns):
-    check_for_winner_status(btns)
-    if game.winner.status:
+    playboard = create_playboard(btns)
+    status = check_for_winner_status(playboard)
+    if status:
+        game.winner.status = True
         return True
-    elif game.winner.status is None:
+    elif status is None:
+        game.winner.status = None
         return None
     else:
+        game.winner.status = False
         return False
 
 
-def check_for_winner_status(btns):
-    playboard = create_playboard(btns)
+def check_for_winner_status(playboard):
     if verticalwin(playboard):
-        game.winner.status = True
+        return True
     elif horizontalwin(playboard):
-        game.winner.status = True
+        return True
     elif diagonalwin(playboard):
-        game.winner.status = True
+        return True
     elif draw(playboard):
-        game.winner.status = None
+        return None
     else:
         return False
 
