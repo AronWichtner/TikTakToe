@@ -47,7 +47,8 @@ def create_window():
 
     pl_vs_ai_btn = Button(f2, text="Player vs AI", height=5, width=15)
     pl_vs_ai_btn.configure(
-        command=lambda: reset_game_to_aivspl(buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
+        #command=lambda: reset_game_to_aivspl(buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
+        command=lambda: reset_game_to_aivsplminimax(buttons, pl1txt, drawtxt, pl2txt, new_game_btn, lbl1, lbl2))
     pl_vs_ai_btn.grid(column=0, row=2)
 
     ai_vs_ai_btn = Button(f2, text="AI vs AI", height=5, width=15)
@@ -74,6 +75,7 @@ def create_window():
     pl2txt.grid(column=2, row=1)
 
     def exit_game():
+        game.run_ai_vs_ai = False
         window.destroy()
 
     exitbtn = Button(f2, text="exit game", height=4, width=10, command=exit_game)
