@@ -1,5 +1,5 @@
 # TikTakToe
-little game
 
-game modes: p1 vs p2, p vs KI, KI vs KI
- verschieden Tiefestufen mit Minimax Alg.
+TikTakToe game with 3 game modes and implemented AI.
+game modes: Player vs. Player/Player vs. AI/AI vs. AI
+
