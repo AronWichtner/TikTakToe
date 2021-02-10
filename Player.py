@@ -9,21 +9,17 @@ class Player:
 
 class ActivePlayer:
     sign: str
+    contrary_sign: str
     name: str
 
-    def __init__(self, sign, name):
+    def __init__(self, sign, name, cont_sign):
         self.sign = sign
         self.name = name
+        self.contrary_sign = cont_sign
 
 
 class Winner:
     sign: str
     name: str
-    status: bool
-    tempwin: bool
-
-    def __init__(self, status):
-        self.status = status
-        self.tempwin = False
 
 
