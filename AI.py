@@ -36,6 +36,7 @@ class AI:
             return False
 
     def makeBestMove(self, bestmove, btns):
+        time.sleep(0.5)
         row = bestmove[1]
         spot = bestmove[2]
         button = btns[row][spot]
@@ -44,13 +45,13 @@ class AI:
     def find_best_move(self, playboard):
         emptyplayboard = self.check_if_Playboard_empty(playboard)
         if emptyplayboard:
-            bestmove = [True, 1, 1]
-            return bestmove
+            firstmove = [True, 0, 0]
+            return firstmove
         else:
+            ismaximizing = False
             possible_moves = []
             bestscore = -2
             rowcoordinate = -1
-            spotcoordinate = -1
             for row in playboard:
                 rowcoordinate += 1
                 spotcoordinate = -1
@@ -58,9 +59,9 @@ class AI:
                     spotcoordinate += 1
                     if spot == "-":
                         playboard[rowcoordinate][spotcoordinate] = self.sign
-                        score = minimax()    # default score = 1 -> minimax not working yet
+                        score = minimax(playboard, 100, ismaximizing)
                         playboard[rowcoordinate][spotcoordinate] = "-"
-                        move = [score, rowcoordinate, spotcoordinate]
+                        move = [bestscore, rowcoordinate, spotcoordinate]
                         if score > bestscore:
                             bestscore = score
                             possible_moves.clear()
@@ -72,7 +73,6 @@ class AI:
                     else:
                         continue
             bestmove = random.choice(possible_moves)
-            return bestmove  # returns a list ->[score,row,spot]
-
+            return bestmove  #returns a list ->[score,row,spot]
 
 

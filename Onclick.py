@@ -14,10 +14,11 @@ def onclick(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn)
 def onclick_forplvpl(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn):
     if isvalidornot(button):
         button["text"] = game.activeplayer.sign
-        game_over = check_for_game_status(btns)
-        if game_over:
-            return end_game(game_over, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
-        if not game_over:
+        playboard = create_playboard(btns)
+        game_status = check_for_game_status(playboard)
+        if game.status is True or game.status is None:
+            return end_game(game_status, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
+        if not game.status:
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
             lbltwo["text"] = "-"
@@ -29,22 +30,23 @@ def onclick_forplvpl(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_
 def onclick_for_plvai(button, lblone, lbltwo, btns, pl1txt, drawtxt, pl2txt, new_game_btn):
     if isvalidornot(button):
         button["text"] = game.activeplayer.sign
-        game_over = check_for_game_status(btns)
-        if game_over:
-            return end_game(game_over, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
-        if not game_over:
+        playboard = create_playboard(btns)
+        game_status = check_for_game_status(playboard)
+        if game.status is True or game.status is None:
+            return end_game(game_status, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
+        if not game.status:
             disablebuttons(btns)
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
             lbltwo["text"] = "-"
-            #game.ai.setsignrandom(btns)
             playboard = create_playboard(btns)
             bestmove = game.ai.find_best_move(playboard)
             game.ai.makeBestMove(bestmove, btns)
-            game_over = check_for_game_status(btns)
-            if game_over:
-                return end_game(game_over, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
-            if not game_over:
+            playboard = create_playboard(btns)
+            game_status = check_for_game_status(playboard)
+            if game.status is True or game.status is None:
+                return end_game(game_status, btns, pl1txt, drawtxt, pl2txt, lblone, lbltwo, new_game_btn)
+            if not game.status:
                 switch_active_player()
                 lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
                 lbltwo["text"] = "-"
