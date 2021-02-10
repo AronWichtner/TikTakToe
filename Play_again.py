@@ -4,7 +4,7 @@ from AIvsAI import ai_vs_ai_game
 
 def play_again(window, btns, pl1txt, drawtxt, pl2txt, new_game_btn, lblone, lbltwo):
     switch_active_player()
-    game.winner.status = False
+    game.status = False
     new_game_btn["state"] = DISABLED
     reset_playboard(btns, lblone, lbltwo)
     enablebuttons(btns)
@@ -16,5 +16,7 @@ def play_again(window, btns, pl1txt, drawtxt, pl2txt, new_game_btn, lblone, lblt
             switch_active_player()
             lblone["text"] = "{}, put your sign!".format(game.activeplayer.name)
             lbltwo["text"] = "-"
+        else:
+            pass
     elif game.gamemode == 3:
         ai_vs_ai_game(window, btns, pl1txt, drawtxt, pl2txt, new_game_btn, lblone, lbltwo)
